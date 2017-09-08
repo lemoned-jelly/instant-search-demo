@@ -10,7 +10,7 @@ node {
     }
 
     stage('Push image') {
-        docker.withRegistry('10.0.0.41:5000') {
+        docker.withRegistry('localhost:5000') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
