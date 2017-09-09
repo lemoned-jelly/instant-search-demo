@@ -16,7 +16,7 @@ node {
     }
 
     stage ('Load image in swarm local registry') {
-        sh 'ssh core@10.0.0.41 "docker load < instantsearch.tar"'
+        sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker load < instantsearch.tar"'
         sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker tag instantsearch localhost:5000/instantsearch:${BUILD_NUMBER}"'
         sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker push localhost:5000/instantsearch:${BUILD_NUMBER}"'
     }
