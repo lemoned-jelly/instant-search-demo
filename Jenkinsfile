@@ -8,7 +8,7 @@ node {
     }
 
     stage('Save image') {
-        docker save instantsearch > instantsearch.tar
+        sh 'docker save instantsearch > instantsearch.tar'
     }
 
     stage ('Export image to swarm') {
