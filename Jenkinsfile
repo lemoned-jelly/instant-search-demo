@@ -22,14 +22,7 @@ node {
     }
 
     stage ('Deploy image in swarm cluster') {
-        script {
-            def isCreated = sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker service inspect instantsearch"'
-            if (isCreated) {
-                sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker service update --image localhost:5000/instantsearch:${BUILD_NUMBER} instantsearch"'
-            } else {
-                sh 'ssh -i ~/awskey.pem core@10.0.0.41 "docker service create --name instantsearch --label traefik.port=80 --label traefik.frontend.rule=PathPrefixStrip:/instantsearch/ --network traefik-net --replicas 3 --update-delay 10s localhost:5000/instantsearch:${BUILD_NUMBER}"'
-            }
-        }
+        sh 'ssh -i ~/awskey.pem core@10.0.0.41 "[docker service inspect instantsearch] && docker service update --image localhost:5000/instantsearch:${BUILD_NUMBER} instantsearch || docker service create --name instantsearch --label traefik.port=80 --label traefik.frontend.rule=PathPrefixStrip:/instantsearch/ --network traefik-net --replicas 3 --update-delay 10s localhost:5000/instantsearch:${BUILD_NUMBER}"'
     }
 
 
